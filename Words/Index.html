@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity Vocabulary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        .word-container {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .word {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .pronunciation {
+            color: #555;
+            font-style: italic;
+        }
+        .definition {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Unity Vocabulary List</h1>
+    <div id="words"></div>
+
+    <script>
+        const words = [
+            ["Asset", "/ˈæsət/", "游戏资源，如模型、纹理、音频等。"],
+            ["Scene", "/siːn/", "游戏场景，代表游戏中的一个关卡或部分。"],
+            ["GameObject", "/ˌɡoʊ ˈbɪdʒ ˌɑːk tɪv/", "Unity中最基本的构建块，可以附加组件来实现各种功能。"],
+            ["Component", "/kəmˈpoʊ nənt/", "可以附加到GameObject上的脚本或行为单元，如Transform、Renderer、Collider等。"],
+            ["Script", "/skrɪpt/", "编写游戏逻辑的代码文件，通常是C#脚本。"],
+            ["Hierarchy", "/haɪˈærərki/", "显示所有GameObject及其层级关系的窗口。"],
+            ["Inspector", "/ɪnˈspɛktər/", "显示所选GameObject或资产属性的窗口。"],
+            ["Transform", "/trænsˈfɔːrm/", "控制GameObject的位置、旋转和缩放的组件。"],
+            ["Mesh", "/meʃ/", "定义物体几何形状的数据结构，由顶点、边和面组成。"],
+            ["Material", "/məˈtɪriəl/", "定义物体表面外观的设置，包括颜色、纹理等。"],
+            ["Texture", "/ˈtɛks.tʃər/", "图像文件，用于给物体添加细节和外观。"],
+            ["Shader", "/ˈʃeɪ.dər/", "程序，定义如何渲染物体的外观。"],
+            ["Light", "/laɪt/", "场景中的光源，用于照亮物体。"],
+            ["Camera", "/ˈkæm.ə.rə/", "捕获场景并显示在屏幕上的虚拟摄像机。"],
+            ["Animator", "/əˈnaɪ.meɪ.tər/", "控制角色动画状态切换的组件。"],
+            ["Animation", "/ˌæn.ɪˈmeɪ.ʃən/", "角色或物体的动作序列。"],
+            ["Rigidbody", "/ˈraɪ.bɒdi/", "物理组件，使GameObject受到物理引擎的影响。"],
+            ["Collider", "/kəˈlaɪ.dər/", "物理组件，定义物体的碰撞边界。"],
+            ["Prefab", "/ˈprɛ.fæb/", "预配置的GameObject，可以在多个场景中重复使用。"],
+            ["Canvas", "/ˈkænvəs/", "UI系统的一部分，用于放置UI元素。"],
+            ["Event System", "/ɪˈvɛnt sɪ.stɪm/", "处理用户输入事件的系统。"],
+            ["Input", "/ˈɪnpʊt/", "获取玩家输入数据的方法和类。"],
+            ["Physics", "/ˈfɪz.ɪks/", "Unity中的物理引擎，处理碰撞检测和动力学模拟。"],
+            ["Debug", "/ˈdɛbug/", "提供调试信息的工具和方法，帮助开发者发现和修复错误。"],
+            ["Build", "/bild/", "将项目打包成可执行文件的过程。"],
+            ["Play Mode", "/pleɪ moʊd/", "在编辑器中实时预览游戏的功能。"],
+            ["Editor", "/ˈɛd.ɪ.tər/", "Unity的图形化界面，用于创建和管理游戏内容。"],
+            ["Package Manager", "/ˈpækɪdʒ mæn.eɪ.dʒər/", "工具，用于安装和管理第三方插件和扩展。"],
+            ["Layer", "/leɪ.ər/", "用于组织GameObject的标签，便于管理和优化渲染顺序。"],
+            ["Tag", "/teg/", "标记GameObject，方便通过代码快速查找特定对象。"],
+            ["Coroutine", "/ˈkɔːrəʊtɪn/", "协程，一种可以在函数中暂停执行并在稍后恢复的特殊类型函数。"],
+            ["Yield Return", "/jild rɪˈtuːrn/", "在协程中使用的关键字，用于暂停协程并返回一个值。"],
+            ["Instantiate", "/ɪnˈstæn.si.eɪt/", "创建一个新的GameObject实例的方法。"],
+            ["Destroy", "/dɪˈstrɔɪ/", "销毁GameObject或组件的方法。"],
+            ["Update", "/ʌpˈdeɪt/", "脚本中的一个方法，每一帧都会调用一次，用于处理游戏逻辑。"],
+            ["Fixed Update", "/ˈfɪks.t ʌpˈdeɪt/", "脚本中的一个方法，按照固定的时间间隔调用，用于物理计算。"],
+            ["Start", "/stɑːrt/", "脚本中的一个方法，在脚本启用时调用一次。"],
+            ["Awake", "/eɪˈweɪk/", "脚本中的一个方法，在脚本加载时立即调用，早于Start。"],
+            ["OnCollisionEnter", "/ˌɒn kəˈlaɪ.ʃən ˈɛntər/", "当两个碰撞体开始接触时调用的方法。"],
+            ["OnTriggerEnter", "/ˌɒn ˈtrɪɡər ˈɛntər/", "当触发器与其他碰撞体接触时调用的方法。"],
+            ["Vector3", "/ˈvɛktər θriː/", "表示三维空间中的向量的数据结构。"],
+            ["Quaternion", "/kwəˈteɪ.ʃən/", "表示旋转的数据结构。"],
+            ["Time", "/taɪm/", "提供时间相关信息的类，如`Time.deltaTime`用于获取上一帧到当前帧的时间差。"],
+            ["Input Manager", "/ˈɪnpʊt mæn.eɪ.dʒər/", "配置输入设备（如键盘、鼠标）的系统。"],
+            ["GUI", "/ɡiː juː iː/", "图形用户界面，早期Unity中用于创建简单的UI元素。"],
+            ["RectTransform", "/ˈriː.ˈtræns.ˈfɔːrm/", "UI元素的Transform组件，提供了额外的属性来调整UI布局。"],
+            ["Canvas Group", "/ˈkænvəs ɡruːp/", "控制一组UI元素的整体透明度和交互性的组件。"],
+            ["Animator Controller", "/əˈnaɪ.meɪ.tər kənˈtroʊ.lər/", "定义动画状态机的行为，控制角色的不同动画。"],
+            ["Animation Clip", "/ˌæn.ɪˈmeɪ.ʃən klɪp/", "包含一组关键帧的动画片段。"],
+            ["NavMesh Agent", "/ˈneɪv.mɛʃ eɪˈdʒənt/", "实现路径寻找和导航的组件。"],
+            ["Rigidbody 2D", "/ˈraɪ.bɒdi tuː di/", "二维物理引擎中的刚体组件。"],
+            ["Collider 2D", "/kəˈlaɪ.dər tuː di/", "二维物理引擎中的碰撞器组件。"],
+            ["Sprite Renderer", "/ˈspaɪrt rɪˈrend.ər/", "渲染精灵图像的组件。"],
+            ["Tilemap", "/ˈtaɪl.map/", "瓦片地图，用于创建基于瓦片的地图。"],
+            ["Audio Source", "/ˈɔː.dioʊ sɔːrs/", "播放音频文件的组件。"],
+            ["Audio Listener", "/ˈɔː.dioʊ ˈlɪs.ner/", "监听音频播放的位置和方向。"],
+            ["Shader Graph", "/ˈʃeɪ.dər græf/", "可视化工具，用于创建复杂的Shader效果。"],
+            ["Lightmap", "/ˈlaɪt.map/", "预烘焙光照数据，用于静态场景中的光照效果。"],
+            ["Particle System", "/ˈpɑː.rɪ.kəl sɪ.stɪm/", "创建粒子效果的组件，如烟雾、火焰等。"],
+            ["Event Trigger", "/ɪˈvɛnt trɪɡər/", "响应特定事件（如点击、拖动）的组件。"],
+            ["ShaderLab", "/ˈʃeɪ.dər læb/", "Unity中用于编写着色器的脚本语言。"],
+            ["Render Pipeline", "/ˈrɛnd.ər paɪˈpiː.laɪn/", "定义渲染过程的工作流程，如通用渲染管道（URP）和高清渲染管道（HDRP）。"],
+            ["Light Probe", "/ˈlaɪt praʊb/", "用于捕获环境光照信息的小型球体，帮助动态物体获得正确的光照效果。"],
+            ["Bake Lighting", "/beɪk ˈlaɪt.ɪŋ/", "预计算静态场景中的光照，提高游戏性能。"],
+            ["Billboard", "/ˈbaɪlbɔːrd/", "始终面向相机的对象，常用于广告牌或UI元素。"],
+            ["Skinned Mesh Renderer", "/ˈskɪnd miʃ rɪˈrend.ər/", "渲染带有骨骼动画的网格模型。"],
+            ["Animator State Machine", "/əˈnaɪ.meɪ.tər steɪt məˈniːm/", "定义角色不同动画状态及其转换规则的状态机。"],
+            ["Blend Tree", "/blɛnd triː/", "用于混合多个动画剪辑的技术，创建平滑过渡效果。"],
+            ["Timeline", "/ˈtaɪmlaɪn/", "时间轴编辑器，用于制作复杂的动画序列和时间线事件。"],
+            ["Curve Editor", "/ˈkɜːrv ˈɛd.ɪ.tər/", "编辑曲线图的工具，用于控制动画或其他属性的变化。"],
+            ["Gradient", "/ˈɡreɪ.di.ənt/", "渐变颜色，用于在材质或粒子系统中创建渐变效果。"],
+            ["Texture Atlas", "/ˈtɛks.tʃər ˈæt.ləs/", "将多个小纹理合并成一个大纹理以减少绘制调用。"],
+            ["LOD (Level of Detail)", "/ˌɛloʊ dəˈtiːl/", "细节层次技术，根据距离调整模型的复杂度以优化性能。"],
+            ["Skybox", "/ˈsaɪ.bɑːks/", "环境天空盒，用于模拟远处的背景环境。"],
+            ["Fog", "/fɒɡ/", "场景中的雾效，用于增加深度感和氛围。"],
+            ["Post-processing Stack", "/pɑːst prəˈses.ɪŋ stæk/", "后处理堆栈，用于添加后期特效，如抗锯齿、色彩校正等。"],
+            ["Visual Effect Graph", "/ˈvɪz.juəl ɪˈfɛkt græf/", "可视化工具，用于创建复杂的视觉效果，如烟雾、火焰等。"],
+            ["ProBuilder", "/proʊ bɪˈldər/", "用于快速创建和编辑多边形几何体的插件。"],
+            ["VFX Graph", "/viː efeɪ eks græf/", "可视化工具，用于创建视觉特效。"],
+            ["NavMesh Surface", "/ˈneɪv.mɛʃ sɜːrfəs/", "导航网格表面，用于定义可导航区域。"],
+            ["Audio Mixer", "/ˈɔː.dioʊ mɪk.sər/", "音频混音器，用于管理和控制音频信号。"],
+            ["Occlusion Culling", "/əʊ.kluˈʒən ˈkʌlɪŋ/", "消除遮挡技术，隐藏不可见的对象以提高性能。"],
+            ["Raycasting", "/ˈreɪˌkæstɪŋ/", "发射光线检测与其他对象相交的技术。"],
+            ["Physics Material", "/ˈfɪz.ɪks məˈtɪriəl/", "物理材料，定义碰撞体之间的摩擦力和反弹系数。"],
+            ["Wind Zone", "/wɪnd zoʊn/", "风区组件，影响区域内物体的行为，如树叶随风摇曳。"],
+            ["Lens Flare", "/lɛns fleɪr/", "镜头光晕效果，模拟光源穿过镜头时产生的光学现象。"],
+            ["Flare", "/freɪr/", "光晕效果，增强光源的视觉冲击力。"],
+            ["Screen Space Ambient Occlusion (SSAO)", "/ˈskrin speɪs æmb.iənt oʊˈkljuːʒən/", "屏幕空间环境遮挡，增加场景的深度感。"],
+            ["Depth Texture", "/dɛpth ˈtɛks.tʃər/", "深度纹理，存储场景中每个像素的距离信息。"],
+            ["Command Buffer", "/ˈkɒm.ænd bʌffer/", "命令缓冲区，用于批量执行图形命令以提高效率。"],
+            ["Cinemachine", "/ˈsɪ.nə.məˌmaɪn/", "用于创建电影级摄像机运动的工具集。"],
+            ["State Machine Behavior", "/steɪt məˈniːm bɪˈheɪ.vjər/", "定义Animator State Machine中状态的行为脚本。"],
+            ["Mecanim", "/miˈkænɪm/", "Unity的动画系统，支持复杂的动画过渡和混合。"],
+            ["Shader Graph Visual Editor", "/ˈʃeɪ.dər græf vɪˈzjuəl ˈɛd.ɪ.tər/", "可视化编辑器，用于创建和编辑着色器。"],
+            ["Universal Render Pipeline (URP)", "/juːˈnɪ.vər.səl ˈrɛnd.ər paɪˈpiː.laɪn/", "通用渲染管道，适用于大多数游戏类型的高性能渲染解决方案。"],
+            ["High Definition Render Pipeline (HDRP)", "/haɪ dɪˈfɪni.ʃən ˈrɛnd.ər paɪˈpiː.laɪn/", "高清渲染管道，适用于需要高质量视觉效果的游戏。"],
+            ["Light Probes Proxy Volume", "/ˈlaɪt praʊbz prɑːksi voʊˈljuːm/", "代理体积，用于在大型场景中高效地放置和管理Light Probes。"],
+            ["Baked Lighting Resolution", "/beɪk ˈlaɪt.ɪŋ rɪˈzoʊ.lu.ʃən/", "预计算光照分辨率，影响光照数据的质量。"],
+            ["Reflection Probe", "/rɪˈflek.ʃən praʊb/", "反射探针，捕获周围环境的反射信息，用于动态物体的镜面反射。"],
+            ["Global Illumination (GI)", "/ɡloʊˈbæl ɪˈluː.miˈneɪ.ʃən/", "全局照明，模拟光线在场景中的漫反射和间接照明效果。"],
+            ["Ambient Light", "/æmb.iənt laɪt/", "环境光，均匀照亮整个场景的背景光。"],
+            ["Directional Light", "/daɪˈrek.ʃən.əl laɪt/", "方向光，从远处发出平行光线，常用于模拟太阳光。"],
+            ["Point Light", "/pɔɪnt laɪt/", "点光源，从一点向外发射光线，类似于蜡烛或灯泡。"],
+            ["Spot Light", "/spoʊt laɪt/", "聚光灯，从一点向外发射锥形光线，类似于手电筒。"],
+            ["Area Light", "/ˈɛrə lɑɪt/", "区域光源，从一个平面区域发射光线，提供更自然的照明效果。"],
+            ["Shadow Casting and Receiving", "/ˈʃædoʊ kæstɪŋ ænd riˈsi.vɪŋ/", "投影投射和接收，控制物体是否产生阴影以及是否接收其他物体的阴影。"],
+            ["Texture Compression", "/ˈtɛks.tʃər kəmprəˈʃi.ən/", "纹理压缩，减小纹理文件大小以提高性能。"],
+            ["Anti-Aliasing", "/æn.taɪˈæl.i.eɪ.zɪŋ/", "抗锯齿，减少图像边缘的锯齿状 artifacts。"],
+            ["Motion Blur", "/ˈmoʊ.ʃən blɜːr/", "运动模糊，模拟快速移动物体时的视觉模糊效果。"],
+            ["Depth of Field (DoF)", "/dɛpth ʌv fiːld/", "景深，模拟相机聚焦特定区域而使前后失焦的效果。"],
+            ["Color Grading", "/ˈkoʊ.lər ɡreɪ.dɪŋ/", "色彩分级，调整整体画面的颜色和对比度。"],
+            ["Post-Processing Layers", "/pɑːst prəˈses.ɪŋ leɪ.ərz/", "后处理层，允许对不同对象应用不同的后处理效果。"],
+            ["Visual Effects Suite", "/ˈvɪz.juəl ɪˈfɛkt suːˈiːt/", "视觉特效套件，包含多种预设特效，如烟雾、火焰等。"],
+            ["Audio Spatialization", "/ˈɔː.dioʊ spetʃ.trəˈlaɪ.zeɪ.ʃən/", "音频空间化，根据声音源的位置和方向调整音频效果。"],
+            ["Reverb Zones", "/riˈvɜːrb zoʊnz/", "回响区域，定义特定区域内的回声效果。"],
+            ["Audio Clip", "/ˈɔː.dioʊ klɪp/", "音频剪辑，存储音频样本的文件。"],
+            ["Audio Mute", "/ˈɔː.dioʊ maɪt/", "静音，暂时停止播放所有音频。"],
+            ["Audio Pause", "/ˈɔː.dioʊ peɪz/", "暂停，暂停当前正在播放的音频。"],
+            ["Audio Resume", "/ˈɔː.dioʊ rɪˈzuːm/", "恢复，恢复之前暂停的音频播放。"],
+            ["Audio Stop", "/ˈɔː.dioʊ stɑːp/", "停止，完全停止当前正在播放的音频。"],
+            ["GameObject.Find", "/ˈɡoʊ ˈbɪdʒ ˌɑːk tɪv.faɪnd/", "查找特定名称的GameObject。"],
+            ["Transform.Translate", "/trænsˈfɔːrm.trænˈslɛɪt/", "移动物体到新的位置。"],
+            ["Transform.Rotate", "/trænsˈfɔːrm.roʊˈteɪt/", "旋转物体。"],
+            ["Transform.localScale", "/trænsˈfɔːrm.leɪˈskeɪl/", "缩放物体的大小。"],
+            ["Vector3.zero", "/ˈvɛktər θriː.zɛroʊ/", "表示零向量的静态变量。"],
+            ["Vector3.one", "/ˈvɛktər θriː.wʌn/", "表示单位向量的静态变量。"],
+            ["Quaternion.identity", "/kwəˈteɪ.ʃən.aɪˈden.tɪ.ti/", "表示无旋转的四元数。"],
+            ["Physics.Raycast", "/ˈfɪz.ɪks.reɪˌkæst/", "发射一条射线检测与其他对象相交。"],
+            ["Physics.SphereCast", "/ˈfɪz.ɪks.sfɪərˌkæst/", "发射一个球形射线检测与其他对象相交。"],
+            ["Physics.Linecast", "/ˈfɪz.ɪks.laɪnkæst/", "发射一条直线射线检测与其他对象相交。"],
+            ["Physics.CheckSphere", "/ˈfɪz.ɪks.tʃek sfɪər/", "检查指定半径内的碰撞体是否存在。"],
+            ["Physics.CheckBox", "/ˈfɪz.ɪks.tʃek bɒk.s/", "检查指定盒子内的碰撞体是否存在。"],
+            ["Physics.OverlapSphere", "/ˈfɪz.ɪks.ˌovərlæp sfɪər/", "返回指定半径内所有重叠的碰撞体。"],
+            ["Physics.OverlapBox", "/ˈfɪz.ɪks.ˌovərlæp bɒk.s/", "返回指定盒子内所有重叠的碰撞体。"],
+            ["Input.GetAxis", "/ˈɪnpʊt.getˈæksɪs/", "获取输入轴的值。"],
+            ["Input.GetKeyDown", "/ˈɪnpʊt.getˈkeɪ.duwn/", "检测按键是否在当前帧按下。"],
+            ["Input.GetKeyUp", "/ˈɪnpʊt.getˈkeɪ.ʌp/", "检测按键是否在当前帧释放。"],
+            ["Input.GetButton", "/ˈɪnpʊt.getˈbʌtn/", "检测按钮是否被按下。"],
+            ["Input.GetButtonDown", "/ˈɪnpʊt.getˈbʌtn.daʊn/", "检测按钮是否在当前帧按下。"],
+            ["Input.GetButtonUp", "/ˈɪnpʊt.getˈbʌtn.ʌp/", "检测按钮是否在当前帧释放。"],
+            ["Time.deltaTime", "/taɪm.deltəˈtiːm/", "上一帧到当前帧的时间差。"],
+            ["Time.fixedDeltaTime", "/taɪm.fɪks.deltəˈtiːm/", "固定时间步长，用于物理计算。"],
+            ["Time.time", "/taɪm.taɪm/", "自游戏开始以来经过的游戏时间。"],
+            ["Time.unscaledTime", "/taɪm.ʌnˈskeld taɪm/", "自游戏开始以来经过的未缩放游戏时间。"],
+            ["Mathf.Clamp", "/mæθ.fæmp/", "将数值限制在指定范围内。"],
+            ["Mathf.Lerp", "/mæθ.lɜːrp/", "在两个值之间进行线性插值。"],
+            ["Mathf.SmoothStep", "/mæθ.smuz.stɛp/", "在两个值之间进行平滑插值。"],
+            ["Mathf.Cos", "/mæθ.kɑːs/", "计算余弦值。"],
+            ["Mathf.Sin", "/mæθ.sɪn/", "计算正弦值。"],
+            ["Mathf.Tan", "/mæθ.tæn/", "计算正切值。"],
+            ["Mathf.Sqrt", "/mæθ.sqrt/", "计算平方根。"],
+            ["Mathf.Pow", "/mæθ.pow/", "计算幂次方。"],
+            ["Random.Range", "/ˈrændəm.reɪndʒ/", "生成指定范围内的随机浮点数。"],
+            ["Random.value", "/ˈrændəm.vælj/", "生成0到1之间的随机浮点数。"],
+            ["Debug.DrawLine", "/ˈdɛbug.drɔɪnˈlaɪn/", "在场景中绘制一条调试线。"],
+            ["Debug.DrawRay", "/ˈdɛbug.drɔɪnreɪ/", "在场景中绘制一条调试射线。"],
+            ["Debug.Break", "/ˈdɛbug.brɛk/", "在编辑器中插入断点。"],
+            ["Application.Quit", "/ˌæplɪˈkeɪ.ʃən.kwɪt/", "退出应用程序。"],
+            ["Application.LoadLevel", "/ˌæplɪˈkeɪ.ʃən.loʊdˈliːvəl/", "加载指定场景。"],
+            ["Application.LoadLevelAdditive", "/ˌæplɪˈkeɪ.ʃən.loʊdˈliːvəl ædɪˈti.v/", "添加指定场景而不卸载当前场景。"],
+            ["Application.persistentDataPath", "/ˌæplɪˈkeɪ.ʃən.pər.sɪs.tənt deɪ.tə pæθ/", "存储持久化数据的路径。"],
+            ["PlayerPrefs", "/plaɪ.ər.prɛfs/", "简单的键值对系统，用于存储玩家偏好设置。"],
+            ["Screen.width", "/skriːn.wɪð/", "屏幕的宽度（像素）。"],
+            ["Screen.height", "/skriːn.haɪt/", "屏幕的高度（像素）。"],
+            ["Screen.currentResolution", "/skriːn.kʌrˈrent rɪˈzoʊ.lu.ʃən/", "当前屏幕分辨率。"],
+            ["Cursor.visible", "/ˈkɜːrsər ˈvɪz.ə.bl/", "设置或获取光标的可见性。"],
+            ["Camera.main", "/ˈkæm.ə.rə.meɪn/", "主摄像机对象。"],
+            ["Camera.backgroundColor", "/ˈkæm.ə.rə.bækˈɡraʊnd kʌlər/", "摄像机背景颜色。"],
+            ["Camera.fieldOfView", "/ˈkæm.ə.rə.fild ʌv viː/", "摄像机视野角度。"],
+            ["Camera.aspectRatio", "/ˈkæm.ə.rə.ˈæspɛkt reɪˈtoʊ/", "摄像机宽高比。"],
+            ["Graphics.Blit", "/ˈɡræf.ɪks.blɪt/", "将纹理从一个渲染目标复制到另一个渲染目标。"],
+            ["Shader.PropertyToID", "/ˈʃeɪ.dər.prəˈpɜːrt.i.toʊ aɪ.di/", "获取着色器属性的ID。"],
+            ["Material.SetColor", "/məˈtɪriəl.setˈkoʊ.lər/", "设置材质的颜色。"],
+            ["Material.SetFloat", "/məˈtɪriəl.setˈfloʊt/", "设置材质的浮点数属性。"],
+            ["Material.SetInt", "/məˈtɪriəl.setˈɪnt/", "设置材质的整数属性。"],
+            ["Material.SetTexture", "/məˈtɪriəl.setˈtɛks.tʃər/", "设置材质的纹理。"],
+            ["Light.intensity", "/laɪt.ɪnˈtɛns.i.ti/", "光源的强度。"],
+            ["Light.color", "/laɪt.kʌlər/", "光源的颜色。"],
+            ["Light.range", "/laɪt.reɪndʒ/", "光源的有效范围。"],
+            ["Light.spotAngle", "/laɪt.spɑːt eɪŋ.ɡəl/", "聚光灯的角度。"],
+            ["AudioSource.Play", "/ˈɔː.dioʊ saʊrs.plaɪ/", "播放音频剪辑。"],
+            ["AudioSource.Stop", "/ˈɔː.dioʊ saʊrs.stɑːp/", "停止播放音频剪辑。"],
+            ["AudioSource.Pause", "/ˈɔː.dioʊ saʊrs.peɪz/", "暂停播放音频剪辑。"],
+            ["AudioSource.UnPause", "/ˈɔː.dioʊ saʊrs.ʌnpeɪz/", "恢复播放音频剪辑。"],
+            ["AudioSource.volume", "/ˈɔː.dioʊ saʊrs.vɑːlm/", "音频音量。"],
+            ["AudioSource.pitch", "/ˈɔː.dioʊ saʊrs.pɪtʃ/", "音频音调。"],
+            ["AudioClip.length", "/ˈɔː.dioʊ klɪp.lɛŋθ/", "音频剪辑的长度（秒）。"],
+            ["ParticleSystem.Emit", "/ˈpɑːr.tɪkleɪ sɪ.stɪm.ɪˈmɪt/", "发射粒子。"],
+            ["ParticleSystem.MainModule", "/ˈpɑːr.tɪkleɪ sɪ.stɪm.meɪnˈmɒd.jəl/", "粒子系统的主模块。"],
+            ["ParticleSystem.EmissionModule", "/ˈpɑːr.tɪkleɪ sɪ.stɪm.ɪˈmiʃ.ənˈmɒd.jəl/", "粒子系统的发射模块。"],
+            ["RectTransform.offsetMin", "/ˈriː.trænsˈfɔːrm.ˈɒf.set mɪn/", "UI元素相对于锚点的最小偏移。"],
+            ["RectTransform.offsetMax", "/ˈriː.trænsˈfɔːrm.ˈɒf.set mæks/", "UI元素相对于锚点的最大偏移。"],
+            ["RectTransform.sizeDelta", "/ˈriː.trænsˈfɔːrm.saɪzˈdiːl.tə/", "UI元素相对于锚点的大小变化。"],
+            ["RectTransform.anchorMin", "/ˈriː.trænsˈfɔːrm.ˈæŋ.kər mɪn/", "UI元素的最小锚点位置。"],
+            ["RectTransform.anchorMax", "/ˈriː.trænsˈfɔːrm.ˈæŋ.kər mæks/", "UI元素的最大锚点位置。"],
+            ["Canvas.renderMode", "/ˈkænvəs.ˈrɛnd.ər.maɪd/", "Canvas的渲染模式（如屏幕空间-覆盖、屏幕空间-叠加等）。"],
+            ["EventSystem.current", "/ɪˈvɛnt.sɪ.stɪm.ˈkʌr.ənt/", "当前活动的事件系统。"],
+            ["Input.mousePosition", "/ˈɪnpʊt.moʊs.poʊˈziʃ.ən/", "鼠标指针的位置。"],
+            ["Input.touchCount", "/ˈɪnpʊt.tʌtʃ kaʊnt/", "触摸屏上触摸的数量。"],
+            ["Touch.position", "/tʌtʃ poʊˈziʃ.ən/", "触摸点的位置。"],
+            ["Touch.phase", "/tʌtʃ feɪz/", "触摸点的阶段（开始、移动、结束等）。"],
+            ["Physics.IgnoreCollision", "/ˈfɪz.ɪks.ɪˈɡnaɪr kəˈlaɪ.ʃən/", "忽略两个碰撞体之间的碰撞检测。"],
+            ["Physics.IgnoreLayerCollision", "/ˈfɪz.ɪks.ɪˈɡnaɪr leɪ.ər kəˈlaɪ.ʃən/", "忽略指定层之间的碰撞检测。"],
+            ["Physics.QueryIgnoreCollision", "/ˈfɪz.ɪks.ˈkwaɪr.iˈɡnaɪr kəˈlaɪ.ʃən/", "查询是否忽略两个碰撞体之间的碰撞检测。"],
+            ["Physics.QueryIgnoreLayerCollision", "/ˈfɪz.ɪks.ˈkwaɪr.iˈɡnaɪr leɪ.ər kəˈlaɪ.ʃən/", "查询是否忽略指定层之间的碰撞检测。"]
+        ];
+
+        const wordsContainer = document.getElementById('words');
+
+        words.forEach(word => {
+            const wordElement = document.createElement('div');
+            wordElement.className = 'word-container';
+            
+            const wordTitle = document.createElement('div');
+            wordTitle.className = 'word';
+            wordTitle.textContent = word[0];
+
+            const pronunciation = document.createElement('span');
+            pronunciation.className = 'pronunciation';
+            pronunciation.textContent = ` ${word[1]}`;
+
+            const definition = document.createElement('div');
+            definition.className = 'definition';
+            definition.textContent = word[2];
+
+            wordTitle.appendChild(pronunciation);
+            wordElement.appendChild(wordTitle);
+            wordElement.appendChild(definition);
+
+            wordsContainer.appendChild(wordElement);
+        });
+    </script>
+</body>
+</html>
