@@ -23,7 +23,9 @@ deepseek-r1
 3. key
 
 ```
-bce-v3/ALTAK-h1tqpJSJXPHlxqOnBmJzV/199ed43f01a52441a86de6af7cf6500e497ed18e
+Bearer bce-v3/ALTAK-h1tqpJSJXPHlxqOnBmJzV/199ed43f01a52441a86de6af7cf6500e497ed18ee
+
+Bearer bce-v3/ALTAK-87hsaZQ4CBB6K04sPfPJS/74d8312b5511ef233ccf1ad34c2b2f7d3ad3977dd
 ```
 
 ## 硅基流动
@@ -47,6 +49,24 @@ deepseek-ai/DeepSeek-R1
 3. key
 
 ```
-sk-nosbybwtdorzhbiqtgepyseknvwwosjlcylavznchbmqefvx
+sk-nosbybwtdorzhbiqtgepyseknvwwosjlcylavznchbmqefvxx
+```
+
+### DeepSeek深度求索
+
+[DeepSeek | 深度求索](https://www.deepseek.com/)
+
+1. api
+
+无，使用DeepSeek接口格式
+
+2. name
+
+无
+
+3. key
+
+```
+sk-8a6e7c228bca41c58113e1d22a6b66f11
 ```
 

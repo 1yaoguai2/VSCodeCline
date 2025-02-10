@@ -2,33 +2,48 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public float mouseSensitivity = 100f;
-    public float moveSpeed = 5f; // 添加移动速度变量
-    public float verticalRotationLimit = 90f;
-
-    private float xRotation = 0f;
-
-    void Start()
+    public void MoveCameraToObject(Transform target)
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        if (target == null)
+        {
+            Debug.LogError("目标变换为空。");
+            return;
+        }
+
+        // 计算目标在屏幕上的期望大小（屏幕高度的一半）
+        float desiredSizeOnScreen = Screen.height * 0.5f;
+
+        // 根据期望大小计算摄像机到目标的距离
+        float distance = Vector3.Distance(transform.position, target.position);
+        float sizeInWorld = desiredSizeOnScreen / Screen.height * 2.0f * distance * Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad);
+
+        // 调整距离以使目标占据屏幕的一半
+        distance = sizeInWorld / (Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad) * 2.0f);
+
+        // 计算摄像机的新位置
+        Vector3 newPosition = target.position - transform.forward * distance;
+
+        // 使用缓动效果移动摄像机到新位置
+        StartCoroutine(MoveToPosition(newPosition));
+
+        // 确保摄像机看向目标
+        transform.LookAt(target);
     }
 
-    void Update()
+    // 缓动移动到指定位置
+    private IEnumerator MoveToPosition(Vector3 targetPosition)
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        float duration = 1.0f; // 缓动持续时间
+        float elapsedTime = 0.0f;
+        Vector3 startPosition = transform.position;
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -verticalRotationLimit, verticalRotationLimit);
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+            yield return null;
+        }
 
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        transform.parent.Rotate(Vector3.up * mouseX);
-
-        // 添加移动功能
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-
-        Vector3 movement = transform.right * moveHorizontal + transform.forward * moveVertical;
-        transform.Translate(movement * moveSpeed * Time.deltaTime, Space.World);
+        transform.position = targetPosition; // 确保最终位置准确
     }
 }
